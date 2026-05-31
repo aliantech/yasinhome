@@ -5,8 +5,6 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 cd "$ROOT"
 
-./scripts/feeds update -a
+cp configs/yasinhome.config .config
 custom/passwall-clean/apply.sh
-./scripts/feeds install -a
-
-custom/rclone-fixes/apply.sh
+make defconfig
