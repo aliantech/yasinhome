@@ -26,4 +26,9 @@ jobs:
           git fetch upstream master
           git checkout master
           git rebase upstream/master
+          custom/readme-clean/apply.sh
+          if ! git diff --quiet -- README.md; then
+            git add README.md
+            git commit -m "Remove promotional README content"
+          fi
           git push --force-with-lease origin master
