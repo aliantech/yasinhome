@@ -1,0 +1,47 @@
+--- a/feeds/luci/applications/luci-app-rclone/luasrc/model/cbi/rclone.lua
++++ b/feeds/luci/applications/luci-app-rclone/luasrc/model/cbi/rclone.lua
+@@ -1,7 +1,16 @@
+ require('luci.sys')
+ require('luci.util')
+ 
+-local ipkg = require('luci.model.ipkg')
++local function pkg_installed(pkg)
++    local cmd = "opkg status " .. luci.util.shellquote(pkg) .. " 2>/dev/null"
++    local status = luci.sys.exec(cmd)
++
++    if status and status:match("Status: install ok installed") then
++        return true
++    end
++
++    return luci.sys.call("test -d /usr/lib/opkg/info && test -f /usr/lib/opkg/info/" .. luci.util.shellquote(pkg .. ".control")) == 0
++end
+ 
+ local fs = require 'nixio.fs'
+ 
+@@ -41,7 +50,7 @@ else
+     address_msg = ''
+ end
+ 
+-if ipkg.installed("rclone-webui-react") and ipkg.installed("rclone-ng") then
++if pkg_installed("rclone-webui-react") and pkg_installed("rclone-ng") then
+ m =
+     Map(
+     'rclone',
+@@ -57,7 +66,7 @@ m =
+         translate('RcloneNg') ..                                                                                                                                    
+         " \" onclick=\"window.open('http://'+window.location.hostname+'/RcloneNg')\"/> <br/><br/>"  
+ )
+-elseif ipkg.installed("rclone-webui-react") then
++elseif pkg_installed("rclone-webui-react") then
+ m =
+     Map(
+     'rclone',
+@@ -71,7 +80,7 @@ m =
+         translate('Webui React') ..                                                                                                                                 
+         " \" onclick=\"window.open('http://'+window.location.hostname+'/rclone-webui-react')\"/>" 
+ )
+-elseif ipkg.installed("rclone-ng") then
++elseif pkg_installed("rclone-ng") then
+ m =
+     Map(
+     'rclone',
