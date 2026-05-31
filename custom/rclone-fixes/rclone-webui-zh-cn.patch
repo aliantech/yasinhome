@@ -1,0 +1,21 @@
+--- a/feeds/packages/net/rclone-ng/Makefile
++++ b/feeds/packages/net/rclone-ng/Makefile
+@@ -38,6 +38,8 @@ endef
+ define Package/rclone-ng/install
+ 	$(INSTALL_DIR) $(1)/www
+ 	$(CP) $(PKG_BUILD_DIR)/RcloneNg $(1)/www
++	$(INSTALL_DATA) $(TOPDIR)/custom/rclone-fixes/files/rclone-ui-zh-cn.js $(1)/www/RcloneNg/zh-cn.js
++	$(SED) 's#</body>#<script src="zh-cn.js"></script></body>#' $(1)/www/RcloneNg/index.html
+ endef
+ 
+ $(eval $(call BuildPackage,rclone-ng))
+--- a/feeds/packages/net/rclone-webui-react/Makefile
++++ b/feeds/packages/net/rclone-webui-react/Makefile
+@@ -43,6 +43,8 @@ define Package/rclone-webui-react/install
+ 	$(INSTALL_DIR) $(1)/www/rclone-webui-react
+ 	$(CP) $(PKG_BUILD_DIR)/build/* $(1)/www/rclone-webui-react
++	$(INSTALL_DATA) $(TOPDIR)/custom/rclone-fixes/files/rclone-ui-zh-cn.js $(1)/www/rclone-webui-react/zh-cn.js
++	$(SED) 's#</body>#<script src="zh-cn.js"></script></body>#' $(1)/www/rclone-webui-react/index.html
+ endef
+ 
+ $(eval $(call BuildPackage,rclone-webui-react))
