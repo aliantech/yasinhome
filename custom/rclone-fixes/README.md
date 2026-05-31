@@ -12,6 +12,12 @@ Run this after `./scripts/feeds update -a && ./scripts/feeds install -a`:
 custom/rclone-fixes/apply.sh
 ```
 
+Or use the wrapper from the repository root:
+
+```sh
+custom/update-feeds-and-apply-custom.sh
+```
+
 The patches are intentionally stored under `custom/` instead of editing
 `feeds/` directly, so rebasing this fork on `coolsnowwolf/lede` does not drop
 the local maintenance changes.
